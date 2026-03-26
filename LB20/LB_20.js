@@ -1,83 +1,83 @@
-// 1. Створення класу User
-class User {
-    constructor(name, email) {
+// 1 та 2. Клас Person
+class Person {
+    constructor(name, age) {
         this.name = name;
-        this.email = email;
+        this.age = age;
     }
 
-    greet() {
-        console.log(`Мене звати ${this.name}, мій email: ${this.email}`);
-    }
-}
-
-// 2. Створення класу Admin, який наслідує User
-class Admin extends User {
-    constructor(name, email, role) {
-        super(name, email); 
-        this.role = role;   
-    }
-
-    displayRole() {
-        console.log(`Користувач: ${this.name}, Роль: ${this.role}`);
+    // Метод для представлення (Завдання 2)
+    introduce() {
+        console.log(`Привіт! Мене звати ${this.name}, мені ${this.age} років.`);
     }
 }
 
+// 4 Наслідування: Клас Student
+class Student extends Person {
+    constructor(name, age, course) {
+        super(name, age); 
+        this.course = course;
+    }
 
-console.log("Завдання 1 та 2");
+    // Перевизначення методу introduce
+    introduce() {
+        console.log(`Я студент ${this.name}, навчаюся на ${this.course} курсі.`);
+    }
+}
 
-const simpleUser = new User("Олексій", "alex@example.com");
-simpleUser.greet(); 
-
-
-const adminUser = new Admin("Марія", "maria@admin.com", "Суперадмін");
-adminUser.greet();       
-adminUser.displayRole(); 
-
-// 3. Реалізація інкапсуляції
+// 5. Інкапсуляція
 class BankAccount {
     #balance; 
 
     constructor(initialBalance) {
-        if (initialBalance < 0) {
-            console.log("Початковий баланс не може бути від'ємним. Встановлено 0.");
-            this.#balance = 0;
-        } else {
-            this.#balance = initialBalance;
-        }
+        this.#balance = initialBalance;
     }
 
-    
-    deposit(amount) {
-        if (amount > 0) {
-            this.#balance += amount;
-            console.log(`Рахунок поповнено на ${amount} грн. Поточний баланс: ${this.#balance} грн.`);
-        } else {
-            console.log("Сума поповнення має бути більшою за 0.");
-        }
-    }
-
-   в
-    withdraw(amount) {
-        if (amount > 0 && amount <= this.#balance) {
-            this.#balance -= amount;
-            console.log(`Знято ${amount} грн. Залишок: ${this.#balance} грн.`);
-        } else {
-            console.log("Недостатньо коштів або некоректна сума.");
-        }
-    }
-
-    
+    // Метод для отримання значення
     getBalance() {
-        return this.#balance;
+        return `Ваш баланс: ${this.#balance} грн.`;
+    }
+
+    deposit(amount) {
+        if (amount > 0) this.#balance += amount;
     }
 }
 
+// 6. Поліморфізм
+class Animal {
+    speak() {
+        console.log("Тварина видає звук");
+    }
+}
 
-console.log("\nЗавдання 3");
+class Dog extends Animal {
+    speak() {
+        console.log("Собака гавкає.");
+    }
+}
 
-const myAccount = new BankAccount(1000); 
+class Cat extends Animal {
+    speak() {
+        console.log("Кіт нявкає.");
+    }
+}
 
-myAccount.deposit(500);  
-myAccount.withdraw(200); 
-myAccount.withdraw(2000); 
+// тест
 
+console.log("--- Завдання 1, 2, 3 (Person) ---");
+const person1 = new Person("Іван", 25);
+const person2 = new Person("Олена", 30);
+person1.introduce();
+person2.introduce();
+
+console.log("\n--- Завдання 4 (Student - Наслідування та Поліморфізм) ---");
+const student = new Student("Марія", 20, 2);
+student.introduce(); 
+
+console.log("\n--- Завдання 5 (Інкапсуляція) ---");
+const account = new BankAccount(1000);
+console.log(account.getBalance()); 
+
+
+console.log("\n--- Завдання 6 (Поліморфізм тварин) ---");
+const animals = [new Dog(), new Cat()];
+animals.forEach(animal => animal.speak());
